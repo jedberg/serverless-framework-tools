@@ -8,7 +8,7 @@ def stub_out(func, file):
     with open(file, "a") as myfile:
         text = """
 def %s(event, context):
-    response = dict(statusCode=200, body="Success")
+    response = dict(statusCode=501, body="")
     return response
 
 """ % (func)
