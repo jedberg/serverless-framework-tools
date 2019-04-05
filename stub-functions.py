@@ -33,7 +33,7 @@ for file in function_handlers:
 for tup in filenames:
     os.makedirs(os.path.dirname(tup[1]), exist_ok=True)
     if not os.path.exists(tup[1]):
-        print("Creating "+ tup[1])
+        print("Creating "+ os.path.relpath(tup[1], os.getcwd()))
         with open(tup[1], 'w'): pass
 
 # Make sure the functions exist in the files
@@ -43,11 +43,11 @@ for tup in filenames:
     module = ast.parse(file_contents)
     function_definitions = [node for node in module.body if isinstance(node, ast.FunctionDef)]
     if tup[0] in [f.name for f in function_definitions]:
-        print("Found " + tup[0] + " in " + tup[1])
+        print("Found " + tup[0] + " in " + os.path.relpath(tup[1], os.getcwd()))
     else:
-        print("Did not find " + tup[0] + " in " + tup[1] + ", stubbing out")
+        print("Did not find " + tup[0] + " in " + os.path.relpath(tup[1], os.getcwd()) + ", stubbing out")
         stub_out(tup[0], tup[1])
-        print("Stubbed out " + tup[0] + " in " + tup[1])
+        print("Stubbed out " + tup[0] + " in " + os.path.relpath(tup[1], os.getcwd()))
 
 # Check for extra files
 files_should_exisit = [tup[1] for tup in filenames]
@@ -61,4 +61,4 @@ for root, dirs, files in os.walk(os.getcwd(), topdown=True):
         files_that_exist.append((os.path.join(root, file)))
 
 for x in [x for x in files_that_exist if x not in files_should_exisit]:
-    print("File " + x + " may be unnecessary")
+    print("File " + os.path.relpath(x, os.getcwd()) + " may be unnecessary")
