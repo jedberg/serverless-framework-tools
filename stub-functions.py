@@ -6,8 +6,7 @@ import yaml
 def stub_out(func, file):
     """This function creates the default function stubs"""
     with open(file, "a") as myfile:
-        text = """
-def %s(event, context):
+        text = """def %s(event, context):
     response = dict(statusCode=501, body="")
     return response
 
